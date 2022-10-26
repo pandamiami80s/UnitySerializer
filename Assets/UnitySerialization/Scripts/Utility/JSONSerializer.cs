@@ -1,11 +1,9 @@
-/// <summary>
-/// 2022 09 15
-/// 
-/// JSON Serialize / Deserialize
-/// </summary>
-
 using UnityEngine;
 using System.IO;
+
+/// <summary>
+/// 2022 09 15
+/// </summary>
 
 public class JSONSerializer
 {
