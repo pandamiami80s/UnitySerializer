@@ -1,12 +1,10 @@
-/// <summary>
-/// 2022 09 15
-/// 
-/// XML Serialize / Deserialize
-/// </summary>
-
 using UnityEngine;
 using System.Xml.Serialization;
 using System.IO;
+
+/// <summary>
+/// 2022 09 15
+/// </summary>
 
 public class XMLSerializer
 {
