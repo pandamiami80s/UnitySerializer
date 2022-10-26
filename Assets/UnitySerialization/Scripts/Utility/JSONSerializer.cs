@@ -13,8 +13,6 @@ public class JSONSerializer
     static readonly string filePath = Application.persistentDataPath;
     static readonly string fileExtention = ".json";
 
-
-
     public static void Serialize(object item, string fileName)
     {
         string toJson = JsonUtility.ToJson(item, true);
@@ -23,7 +21,6 @@ public class JSONSerializer
 
         Debug.Log("JSON Serialize: " + pathCombine);
     }
-
 
     public static T Deserialize<T>(string fileName)
     {
