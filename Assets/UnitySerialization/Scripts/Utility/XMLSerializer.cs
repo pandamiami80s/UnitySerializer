@@ -14,8 +14,6 @@ public class XMLSerializer
     static readonly string filePath = Application.persistentDataPath;
     static readonly string fileExtention = ".xml";
 
-
-
     public static void Serialize(object item, string fileName)
     {
         XmlSerializer xmlSerializer = new XmlSerializer(item.GetType());
@@ -26,8 +24,6 @@ public class XMLSerializer
 
         Debug.Log("XML Serialize: " + pathCombine);
     }
-
-
 
     public static T Deserialize<T>(string fileName)
     {
