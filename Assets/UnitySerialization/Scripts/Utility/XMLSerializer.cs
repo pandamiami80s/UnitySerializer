@@ -1,9 +1,9 @@
-using UnityEngine;
-using System.Xml.Serialization;
 using System.IO;
+using System.Xml.Serialization;
+using UnityEngine;
 
 /// <summary>
-/// 2022 09 15
+/// 2024 01 30
 /// </summary>
 
 public class XMLSerializer
@@ -12,26 +12,43 @@ public class XMLSerializer
     static readonly string filePath = Application.persistentDataPath;
     static readonly string fileExtention = ".xml";
 
+    public static bool IsFileExists(string fileName)
+    {
+        string pathCombine = Path.Combine(filePath, fileName + fileExtention);
+        if (File.Exists(pathCombine))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static void RemoveFile(string fileName)
+    {
+        string pathCombine = Path.Combine(filePath, fileName + fileExtention);
+        File.Delete(pathCombine);
+    }
+
     public static void Serialize(object item, string fileName)
     {
-        XmlSerializer xmlSerializer = new XmlSerializer(item.GetType());
         string pathCombine = Path.Combine(filePath, fileName + fileExtention);
         StreamWriter streamWriter = new StreamWriter(pathCombine);
+        XmlSerializer xmlSerializer = new XmlSerializer(item.GetType());
         xmlSerializer.Serialize(streamWriter.BaseStream, item);
         streamWriter.Close();
 
-        Debug.Log("XML Serialize: " + pathCombine);
+        //Debug.Log("XML Serialize: " + pathCombine);
     }
 
     public static T Deserialize<T>(string fileName)
     {
-        XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
         string pathCombine = Path.Combine(filePath, fileName + fileExtention);
         StreamReader streamReader = new StreamReader(pathCombine);
+        XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
         T item = (T)xmlSerializer.Deserialize(streamReader.BaseStream);
         streamReader.Close();
 
-        Debug.Log("XML Deserialize: " + pathCombine);
+        //Debug.Log("XML Deserialize: " + pathCombine);
 
         return item;
     }

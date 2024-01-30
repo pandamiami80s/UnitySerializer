@@ -1,28 +1,30 @@
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using UnityEngine;
 
 /// <summary>
 /// 2023 01 30
 /// </summary>
 
-public class XMLSaveLoadSample : MonoBehaviour
+public class BinSaveLoadSample : MonoBehaviour
 {
+    [System.Serializable]
     public class Wall
     {
         public string name;
         public float size;
     }
+    [System.Serializable]
     public class Floor
     {
         public int id;
-        public Vector3 position;
+        public int positionX;
+        public int positionY;
+        public int positionZ;
     }
+    [System.Serializable]
     public class Level
     {
-        [XmlArray(ElementName = "Wall_list")]
         public List<Wall> walls;
-        [XmlArray(ElementName = "Floor_list")]
         public List<Floor> floors;
     }
 
@@ -43,7 +45,7 @@ public class XMLSaveLoadSample : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             Wall wall = new Wall();
-            wall.name = "XML Wall " + i.ToString();
+            wall.name = "Bin Wall " + i.ToString();
             wall.size = 1.0f;
 
             Level.walls.Add(wall);
@@ -54,20 +56,22 @@ public class XMLSaveLoadSample : MonoBehaviour
         {
             Floor floor = new Floor();
             floor.id = i;
-            floor.position = new Vector3(0, i, 0);
+            floor.positionX = 0;
+            floor.positionY = i;
+            floor.positionZ = 0;
 
             Level.floors.Add(floor);
         }
 
         // Save
-        XMLSerializer.Serialize(Level, "Level");
+        BinSerializer.Serialize(Level, "Level");
     }
 
     void Load()
     {
-        Level level = XMLSerializer.Deserialize<Level>("Level");
+        Level level = BinSerializer.Deserialize<Level>("Level");
 
-        Debug.Log("XML file contains: " + level.walls[0].name +
+        Debug.Log("Bin file contains: " + level.walls[0].name +
             ", Walls count:  " + level.walls.Count +
             ", Floors count: " + level.floors.Count);
     }

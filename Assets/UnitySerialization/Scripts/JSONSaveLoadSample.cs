@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 2023 01 30
+/// </summary>
+
 public class JSONSaveLoadSample : MonoBehaviour
 {
     [System.Serializable]
@@ -15,6 +19,7 @@ public class JSONSaveLoadSample : MonoBehaviour
         public int id;
         public Vector3 position;
     }
+    [System.Serializable]
     public class Level
     {
         public List<Wall> walls;
@@ -29,8 +34,6 @@ public class JSONSaveLoadSample : MonoBehaviour
 
         Load();
     }
-
-
 
     void Save()
     {
@@ -60,8 +63,6 @@ public class JSONSaveLoadSample : MonoBehaviour
 
         JSONSerializer.Serialize(level, "Level");
     }
-
-
 
     void Load()
     {

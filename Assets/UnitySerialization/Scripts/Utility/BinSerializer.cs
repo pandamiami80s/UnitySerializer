@@ -1,15 +1,16 @@
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 /// <summary>
 /// 2024 01 30
 /// </summary>
 
-public class JSONSerializer
+public class BinSerializer : MonoBehaviour
 {
     // Windows 10: C:\Users\USER_NAME\AppData\LocalLow\DEDAULT_COMPANY\PROJECT_NAME
     static readonly string filePath = Application.persistentDataPath;
-    static readonly string fileExtention = ".json";
+    static readonly string fileExtention = ".kmstr";
 
 
 
@@ -24,28 +25,26 @@ public class JSONSerializer
         return false;
     }
 
-    public static void RemoveFile(string fileName)
-    {
-        string pathCombine = Path.Combine(filePath, fileName + fileExtention);
-        File.Delete(pathCombine);
-    }
-
     public static void Serialize(object item, string fileName)
     {
         string pathCombine = Path.Combine(filePath, fileName + fileExtention);
-        string toJson = JsonUtility.ToJson(item, true);
-        File.WriteAllText(pathCombine, toJson);
+        FileStream fileStream = new FileStream(pathCombine, FileMode.Create);
+        BinaryFormatter binaryFormatter = new BinaryFormatter();
+        binaryFormatter.Serialize(fileStream, item);
+        fileStream.Close();
 
-        //Debug.Log("JSON Serialize: " + pathCombine);
+        //Debug.Log("Bin Serialize: " + pathCombine);
     }
 
     public static T Deserialize<T>(string fileName)
     {
         string pathCombine = Path.Combine(filePath, fileName + fileExtention);
-        string fromJson = File.ReadAllText(pathCombine);
-        T item = JsonUtility.FromJson<T>(fromJson);
+        FileStream fileStream = new FileStream(pathCombine, FileMode.Open);
+        BinaryFormatter binaryFormatter = new BinaryFormatter();
+        T item = (T)binaryFormatter.Deserialize(fileStream);
+        fileStream.Close();
 
-        //Debug.Log("JSON Deserialize: " + pathCombine);
+        //Debug.Log("Bin Deserialize: " + pathCombine);
 
         return item;
     }
